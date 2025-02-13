@@ -2,46 +2,45 @@ CREATE DATABASE dbAlmoxarifado
 GO
 USE dbAlmoxarifado
 GO
-DROP DATABASE dbAlmoxarifado 
 
 CREATE TABLE Categoria  (
-    CodigoCategoria INT PRIMARY KEY IDENTITY (1,1) NOT NULL,
-    Descricao VARCHAR(100) NOT NULL,
+    CodigoCategoria INT PRIMARY KEY IDENTITY (1,1),
+    DescricaoCat VARCHAR(100)
  );
- Select * From Categoria
 
  CREATE TABLE Produto (
-    CodigoProduto INT PRIMARY KEY IDENTITY(1,1),
-    Descricao VARCHAR(100) NOT NULL,
-    UnidadeMedida VARCHAR(100) NOT NULL,
-	Preços VARCHAR(100) NOT NULL,
-    EstoqueAtual FLOAT DEFAULT 0 NOT NULL,
-    CodigoCategoria INT NOT NULL, 
-    FOREIGN KEY (CodigoCategoria) REFERENCES Categoria(CodigoCategoria)
+    IdProduto INT PRIMARY KEY IDENTITY(1,1),
+    DescricaoPro VARCHAR(100),
+    UnidadeMedida VARCHAR(100),
+    EstoqueAtual FLOAT DEFAULT 0,
+	IdItensEntrada INT,
+	IdCategoria INT,
+    PrecoProd FLOAT DEFAULT 0, 
+
 ); 
- Select * From Produto
 
 CREATE TABLE Fornecedor (
 
     CodigoFornecedor INT PRIMARY KEY IDENTITY(1,1),
-    NomeFornecedor VARCHAR(100) NOT NULL,
-    CNPJ VARCHAR(20) UNIQUE NOT NULL,
-    Telefone VARCHAR(15),
-    Email VARCHAR(100),
-    Endereco VARCHAR(100),
-    ResponsavelContato VARCHAR(100)
+    NomeFornecedor VARCHAR(100),
+	Endereco VARCHAR(100),
+	Bairro VARCHAR(100),
+	Cidade VARCHAR(100),
+	Estado VARCHAR(100),
+	Telefone VARCHAR(100),
+    CNPJ VARCHAR(100) UNIQUE
 );
 CREATE TABLE Entrada (
     CodigoEntrada INT PRIMARY KEY IDENTITY(1,1),
-    DataEntrada DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CodigoFornecedor INT NOT NULL,
-    NotaFiscal VARCHAR(50) NOT NULL UNIQUE,
+    DataEntrada DATETIME DEFAULT CURRENT_TIMESTAMP,
+    CodigoFornecedor INT,
+    Observacao VARCHAR(100),
     FOREIGN KEY (CodigoFornecedor) REFERENCES Fornecedor(CodigoFornecedor)
 );
  CREATE TABLE ItensEntrada (
     CodigoItemEntrada INT PRIMARY KEY IDENTITY(1,1),
-    CodigoProduto INT NOT NULL,
-    CodigoEntrada INT NOT NULL,
+    CodigoProduto INT,
+    CodigoEntrada INT,
     NomeFornecedor VARCHAR(100) NOT NULL,
     Categoria BIT NOT NULL, 
     QuantidadeRecebida FLOAT NOT NULL CHECK (QuantidadeRecebida > 0),
